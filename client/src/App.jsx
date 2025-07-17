@@ -53,8 +53,8 @@ function NewsApp(props) {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const apiKey = 'AIzaSyAJnn2hAQdzr21ScQ-YwYFVilx6RSVORfM';
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=latest+hindi+news&type=video&maxResults=5&key=${apiKey}`;
+        const youtubeapiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=latest+hindi+news&type=video&maxResults=5&key=${youtubeapiKey}`;
         const response = await fetch(url);
         const data = await response.json();
         if (data.items) {
@@ -77,7 +77,8 @@ function NewsApp(props) {
   useEffect(() => {
     const fetchOurNews = async () => {
       try {
-        const res = await fetch('/api/news');
+        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+        const res = await fetch(`${baseUrl}/api/news`);
         if (res.ok) {
           const data = await res.json();
           setOurNews(data);

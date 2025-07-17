@@ -12,9 +12,11 @@ const Dashboard = () => {
   const [viewMode, setViewMode] = useState('grid'); // grid or list
   const navigate = useNavigate();
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   const fetchNews = async () => {
     try {
-      const res = await fetch('/api/news');
+      const res = await fetch(`${baseUrl}/api/news`);
       if (res.ok) {
         const data = await res.json();
         setNews(data);
@@ -34,7 +36,7 @@ const Dashboard = () => {
     if (!window.confirm('Are you sure you want to delete this news article?')) return;
     
     try {
-      const res = await fetch(`/api/news/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${baseUrl}/api/news/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setNews(news.filter(n => n._id !== id));
         showNotification('Article deleted successfully', 'success');
@@ -79,7 +81,7 @@ const Dashboard = () => {
         if (value) formData.append(key, value);
       });
       
-      const res = await fetch(`/api/news/${editing}`, {
+      const res = await fetch(`${baseUrl}/api/news/${editing}`, {
         method: 'PUT',
         body: formData
       });

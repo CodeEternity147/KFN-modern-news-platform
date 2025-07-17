@@ -9,7 +9,7 @@ export default defineConfig({
 
   server: {
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': 'https://pulsenews-3-qfs3.onrender.com',
     },
   },
 })
