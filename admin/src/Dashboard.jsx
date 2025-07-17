@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState('grid'); // grid or list
+  const [deleteId, setDeleteId] = useState(null); // Add state for delete confirmation
   const navigate = useNavigate();
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -33,18 +34,25 @@ const Dashboard = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this news article?')) return;
-    
+    setDeleteId(id); // Show confirmation modal
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteId) return;
     try {
-      const res = await fetch(`${baseUrl}/api/news/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${baseUrl}/api/news/${deleteId}`, { method: 'DELETE' });
       if (res.ok) {
-        setNews(news.filter(n => n._id !== id));
+        setNews(news.filter(n => n._id !== deleteId));
         showNotification('Article deleted successfully', 'success');
       }
     } catch (err) {
       showNotification('Error deleting article', 'error');
+    } finally {
+      setDeleteId(null); // Close modal
     }
   };
+
+  const cancelDelete = () => setDeleteId(null);
 
   const handleEditClick = (item) => {
     setEditing(item._id);
@@ -546,6 +554,30 @@ const Dashboard = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-[#1a1f2e] p-8 rounded-xl border border-[#ff0000] shadow-2xl text-center max-w-sm w-full">
+            <h3 className="text-xl font-bold text-white mb-4">Confirm Deletion</h3>
+            <p className="text-[#ccd6f6] mb-6">Are you sure you want to delete this news article?</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={confirmDelete}
+                className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white font-medium hover:scale-105 transition-all duration-200"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={cancelDelete}
+                className="px-6 py-2 rounded-lg bg-[#2a2f3e] text-[#ccd6f6] font-medium hover:bg-[#3a3f4e] transition-all duration-200"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
