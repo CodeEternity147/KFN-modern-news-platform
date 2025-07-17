@@ -1,10 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const newsRoutes = require('./routes/news');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Allow CORS for production and local dev
+const allowedOrigins = [
+  'https://pulse-news-mzhw.vercel.app',
+  'https://pulse-news-zeta.vercel.app/',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 app.use(express.json());
 app.use('/api/news', newsRoutes);
