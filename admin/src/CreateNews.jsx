@@ -316,34 +316,34 @@ const CreateNews = () => {
   }, [currentStep, renderStep1, renderStep2, renderStep3]);
 
   return (
-    <div className="min-h-screen bg-[#0a0e1a] py-8 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-[#0a0e1a] py-4 px-2 sm:py-8 sm:px-4">
+      <div className="max-w-full sm:max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#ff0000] to-[#ff6b35] bg-clip-text text-transparent mb-2">
+        <div className="text-center mb-4 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-[#ff0000] to-[#ff6b35] bg-clip-text text-transparent mb-2">
             Create News Article
           </h1>
-          <p className="text-[#8892b0]">Share your story with the world</p>
+          <p className="text-[#8892b0] text-xs sm:text-base">Share your story with the world</p>
         </div>
 
         {/* Progress Steps */}
         {stepIndicator}
 
         {/* Form Container */}
-        <div className="bg-[#1a1f2e] rounded-2xl p-8 border border-[#2a2f3e] shadow-2xl">
+        <div className="bg-[#1a1f2e] rounded-2xl p-4 sm:p-8 border border-[#2a2f3e] shadow-2xl">
           <form onSubmit={handleSubmit}>
             {/* Step Content */}
-            <div className="min-h-[400px]">
+            <div className="min-h-[300px] sm:min-h-[400px] text-xs sm:text-base">
               {currentStepContent}
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center mt-8 pt-6 border-t border-[#2a2f3e]">
+            <div className="flex flex-row justify-between items-center mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-[#2a2f3e] gap-2">
               <button
                 type="button"
                 onClick={handlePrevious}
                 disabled={currentStep === 1}
-                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                className={`px-2 py-1 sm:px-6 sm:py-3 rounded-xl font-medium transition-all duration-300 text-xs sm:text-base ${
                   currentStep === 1 
                     ? 'bg-[#2a2f3e] text-[#8892b0] cursor-not-allowed' 
                     : 'bg-[#2a2f3e] text-white hover:bg-[#3a3f4e] hover:scale-105'
@@ -352,11 +352,11 @@ const CreateNews = () => {
                 Previous
               </button>
 
-              <div className="flex space-x-3">
+              <div className="flex flex-row gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => navigate('/dashboard')}
-                  className="px-6 py-3 rounded-xl font-medium bg-[#2a2f3e] text-[#8892b0] hover:bg-[#3a3f4e] transition-all duration-300"
+                  className="px-2 py-1 sm:px-6 sm:py-3 rounded-xl font-medium bg-[#2a2f3e] text-[#8892b0] hover:bg-[#3a3f4e] transition-all duration-300 text-xs sm:text-base"
                 >
                   Cancel
                 </button>
@@ -366,7 +366,7 @@ const CreateNews = () => {
                     type="button"
                     onClick={handleNext}
                     disabled={!isStepValid}
-                    className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    className={`px-2 py-1 sm:px-8 sm:py-3 rounded-xl font-medium transition-all duration-300 text-xs sm:text-base ${
                       isStepValid
                         ? 'bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white hover:shadow-lg hover:scale-105'
                         : 'bg-[#2a2f3e] text-[#8892b0] cursor-not-allowed'
@@ -378,7 +378,7 @@ const CreateNews = () => {
                   <button
                     type="submit"
                     disabled={loading || !isStepValid}
-                    className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    className={`px-2 py-1 sm:px-8 sm:py-3 rounded-xl font-medium transition-all duration-300 text-xs sm:text-base ${
                       isStepValid && !loading
                         ? 'bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white hover:shadow-lg hover:scale-105'
                         : 'bg-[#2a2f3e] text-[#8892b0] cursor-not-allowed'
@@ -401,12 +401,12 @@ const CreateNews = () => {
 
         {/* Messages */}
         {message && (
-          <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center animate-pulse">
+          <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center animate-pulse text-xs sm:text-base">
             {message}
           </div>
         )}
         {error && (
-          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center">
+          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center text-xs sm:text-base">
             {error}
           </div>
         )}

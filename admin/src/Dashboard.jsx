@@ -157,9 +157,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0e1a] text-white">
+    <div className="min-h-screen bg-[#0a0e1a] text-white flex flex-col md:flex-row">
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 bg-[#1a1f2e] border-r border-[#2a2f3e] p-6 z-10">
+      <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-[#1a1f2e] border-r border-[#2a2f3e] p-6 z-10">
         <div className="flex items-center space-x-3 mb-8">
           <div className="w-10 h-10 bg-gradient-to-r from-[#ff0000] to-[#a92323] rounded-lg flex items-center justify-center font-bold text-lg">
             N
@@ -197,38 +197,36 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
-      <div className="ml-64 p-8">
+      <div className="flex-1 p-2 sm:p-4 md:p-8 md:ml-64">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-4 sm:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#ff0000] to-[#ff6b35] bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#ff0000] to-[#ff6b35] bg-clip-text text-transparent">
                 Content Management
               </h1>
-              <p className="text-[#8892b0] mt-1">Manage your news articles and content</p>
+              <p className="text-[#8892b0] mt-1 text-sm sm:text-base">Manage your news articles and content</p>
             </div>
             <button
               onClick={() => navigate('/create-news')}
-              className="bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+              className="bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 text-sm sm:text-base"
             >
               <span>➕</span>
               <span>Create Article</span>
             </button>
           </div>
         </div>
-
         {/* Filter and View Controls */}
-        <div className="bg-[#1a1f2e] rounded-xl p-6 border border-[#2a2f3e] mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="bg-[#1a1f2e] rounded-xl p-3 sm:p-6 border border-[#2a2f3e] mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full">
               <div>
-                <label className="block text-[#8892b0] text-sm mb-1">Filter by Category</label>
+                <label className="block text-[#8892b0] text-xs sm:text-sm mb-1">Filter by Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-[#2a2f3e] text-white px-4 py-2 rounded-lg border border-[#3a3f4e] focus:border-[#ff0000] focus:outline-none transition-all duration-200"
+                  className="bg-[#2a2f3e] text-white px-2 py-1 sm:px-4 sm:py-2 rounded-lg border border-[#3a3f4e] focus:border-[#ff0000] focus:outline-none transition-all duration-200 text-xs sm:text-base"
                 >
                   {categories.map(cat => (
                     <option key={cat} value={cat}>
@@ -237,15 +235,14 @@ const Dashboard = () => {
                   ))}
                 </select>
               </div>
-              <div className="text-[#8892b0] text-sm pt-5">
+              <div className="text-[#8892b0] text-xs sm:text-sm pt-1 sm:pt-5">
                 {filteredNews.length} articles found
               </div>
             </div>
-            
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-all duration-200 ${
+                className={`p-2 rounded-lg transition-all duration-200 text-xs sm:text-base ${
                   viewMode === 'grid' 
                     ? 'bg-[#ff0000] text-white' 
                     : 'bg-[#2a2f3e] text-[#8892b0] hover:bg-[#3a3f4e]'
@@ -255,7 +252,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-all duration-200 ${
+                className={`p-2 rounded-lg transition-all duration-200 text-xs sm:text-base ${
                   viewMode === 'list' 
                     ? 'bg-[#ff0000] text-white' 
                     : 'bg-[#2a2f3e] text-[#8892b0] hover:bg-[#3a3f4e]'
@@ -266,13 +263,12 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
         {/* Articles Display */}
         {filteredNews.length === 0 ? (
-          <div className="bg-[#1a1f2e] rounded-xl p-12 border border-[#2a2f3e] text-center">
-            <div className="text-6xl mb-4 opacity-50">📰</div>
-            <h3 className="text-xl font-semibold text-white mb-2">No articles found</h3>
-            <p className="text-[#8892b0] mb-6">
+          <div className="bg-[#1a1f2e] rounded-xl p-6 sm:p-12 border border-[#2a2f3e] text-center">
+            <div className="text-4xl sm:text-6xl mb-4 opacity-50">📰</div>
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">No articles found</h3>
+            <p className="text-[#8892b0] mb-6 text-xs sm:text-base">
               {selectedCategory === 'all' 
                 ? "You haven't created any news articles yet." 
                 : `No articles found in ${selectedCategory} category.`
@@ -280,18 +276,18 @@ const Dashboard = () => {
             </p>
             <button
               onClick={() => navigate('/create-news')}
-              className="bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+              className="bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-xs sm:text-base"
             >
               Create Your First Article
             </button>
           </div>
         ) : (
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6' : 'space-y-2 sm:space-y-4'}>
             {filteredNews.map((item, index) => (
               <div 
                 key={item._id}
                 className={`bg-[#1a1f2e] rounded-xl border border-[#2a2f3e] hover:border-[#ff0000] transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${
-                  viewMode === 'grid' ? 'p-6' : 'p-4 flex items-center space-x-4'
+                  viewMode === 'grid' ? 'p-3 sm:p-6' : 'p-2 sm:p-4 flex items-center space-x-2 sm:space-x-4'
                 }`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -390,8 +386,8 @@ const Dashboard = () => {
 
       {/* Edit Modal */}
       {editing && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a1f2e] rounded-2xl border border-[#2a2f3e] p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-[#1a1f2e] rounded-2xl border border-[#2a2f3e] p-4 sm:p-8 w-full max-w-xs sm:max-w-2xl max-h-[90vh] overflow-y-auto text-xs sm:text-base">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-white">Edit Article</h3>
               <button 
@@ -560,20 +556,20 @@ const Dashboard = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteId && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-[#1a1f2e] p-8 rounded-xl border border-[#ff0000] shadow-2xl text-center max-w-sm w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Confirm Deletion</h3>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-[#1a1f2e] p-4 sm:p-8 rounded-xl border border-[#ff0000] shadow-2xl text-center max-w-xs sm:max-w-sm w-full text-xs sm:text-base">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Confirm Deletion</h3>
             <p className="text-[#ccd6f6] mb-6">Are you sure you want to delete this news article?</p>
-            <div className="flex justify-center space-x-4">
+            <div className="flex justify-center space-x-2 sm:space-x-4">
               <button
                 onClick={confirmDelete}
-                className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white font-medium hover:scale-105 transition-all duration-200"
+                className="px-4 py-2 sm:px-6 sm:py-2 rounded-lg bg-gradient-to-r from-[#ff0000] to-[#a92323] text-white font-medium hover:scale-105 transition-all duration-200"
               >
                 Yes, Delete
               </button>
               <button
                 onClick={cancelDelete}
-                className="px-6 py-2 rounded-lg bg-[#2a2f3e] text-[#ccd6f6] font-medium hover:bg-[#3a3f4e] transition-all duration-200"
+                className="px-4 py-2 sm:px-6 sm:py-2 rounded-lg bg-[#2a2f3e] text-[#ccd6f6] font-medium hover:bg-[#3a3f4e] transition-all duration-200"
               >
                 Cancel
               </button>
