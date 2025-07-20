@@ -7,6 +7,11 @@ import CategoryPage from './components/CategoryPage';
 import TrendingList from './components/TrendingList';
 import PopularVideos from './components/PopularVideos';
 import Footer from './components/Footer';
+import AboutUs from './components/Pages/AboutUs';
+import ContactUs from './components/Pages/ContactUs';
+import Support from './components/Pages/Support';
+import PrivacyPolicy from './components/Pages/PrivacyPolicy';
+import TermsOfService from './components/Pages/TermsOfService';
 import './App.css';
 
 function NewsApp(props) {
@@ -231,6 +236,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<NewsApp />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
       </Routes>
     </Router>
   );

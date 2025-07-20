@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, setLoginState } from '../store';
+import logo from "../assets/logo.jpg"
 
 const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQuery: propSearchQuery = '' }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -88,8 +89,9 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
           <div className="flex items-center justify-around py-4">
             {/* Logo */}
             <div className="flex-shrink-0 group">
-              <h1 className="text-2xl font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
-                <span className="inline-block group-hover:animate-bounce">📰</span>PulseNews
+              <h1 className="text-2xl flex gap-4 justify-center items-center font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
+              <img src={logo} alt="Pulse News Logo" className="w-10 h-10 object-contain" />
+              <span className='text-[32px]' >K.LIVE</span>
               </h1>
             </div>
 

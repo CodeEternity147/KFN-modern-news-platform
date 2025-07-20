@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import logo from "../assets/logo.jpg";
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [typewriterText, setTypewriterText] = useState('');
+
+  const navigate = useNavigate();
 
   // Newsletter subscription
   const handleNewsletterSubmit = (e) => {
@@ -27,7 +31,7 @@ const Footer = () => {
 
   // Typewriter effect for copyright
   useEffect(() => {
-    const text = '© 2024 News Hub. All rights reserved.';
+    const text = `© ${new Date().getFullYear()} K.News -  All rights reserved.`;
     let index = 0;
     const timer = setInterval(() => {
       if (index < text.length) {
@@ -84,7 +88,7 @@ const Footer = () => {
                       <span>Subscribed!</span>
                     </span>
                   ) : (
-                    'Subscribe'
+                    <div className='text-black font-bold ' >Subscribe</div>
                   )}
                 </button>
               </div>
@@ -100,12 +104,12 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                  </svg>
+                <div className="flex-shrink-0 group">
+                  <span className="text-2xl flex gap-4 justify-center items-center font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
+                    <img src={logo} alt="Pulse News Logo" className="w-10 h-10 object-contain" />
+                    <span className='text-[32px] '>K.LIVE</span>
+                  </span>
                 </div>
-                <span className="text-xl font-bold text-gradient">News Hub</span>
               </div>
               <p className="text-text-secondary leading-relaxed">
                 Your trusted source for the latest news, insights, and stories that matter. 
@@ -167,12 +171,11 @@ const Footer = () => {
             <div className="space-y-6">
               <h3 className="text-lg font-semibold text-text-primary">Support</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">Contact Us</a></li>
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">About Us</a></li>
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">Privacy Policy</a></li>
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">Terms of Service</a></li>
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">Cookie Policy</a></li>
-                <li><a href="#" className="text-text-secondary hover:text-accent-primary smooth-transition">Help Center</a></li>
+                <li><button onClick={() => navigate('/contact')} className="text-text-secondary hover:text-accent-primary smooth-transition bg-transparent border-none outline-none cursor-pointer">Contact Us</button></li>
+                <li><button onClick={() => navigate('/about')} className="text-text-secondary hover:text-accent-primary smooth-transition bg-transparent border-none outline-none cursor-pointer">About Us</button></li>
+                <li><button onClick={() => navigate('/privacy-policy')} className="text-text-secondary hover:text-accent-primary smooth-transition bg-transparent border-none outline-none cursor-pointer">Privacy Policy</button></li>
+                <li><button onClick={() => navigate('/terms-of-service')} className="text-text-secondary hover:text-accent-primary smooth-transition bg-transparent border-none outline-none cursor-pointer">Terms of Service</button></li>
+                <li><button onClick={() => navigate('/support')} className="text-text-secondary hover:text-accent-primary smooth-transition bg-transparent border-none outline-none cursor-pointer">Support</button></li>
               </ul>
             </div>
           </div>
@@ -185,9 +188,10 @@ const Footer = () => {
                 <span className="animate-pulse">|</span>
               </div>
               <div className="flex items-center space-x-6 text-text-muted text-sm">
-                <span>Made with ❤️ for news lovers</span>
-                <span>•</span>
-                <span>Version 2.0</span>
+                <span>
+                  Crafted and Powered by 
+                  <a href="https://www.codeeternity.com/"  target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-semibold"> CodeEternity</a>
+                </span>
               </div>
             </div>
           </div>
