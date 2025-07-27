@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NewsCard = ({ article }) => {
+const NewsCard = ({ article, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -130,9 +130,18 @@ const NewsCard = ({ article }) => {
       {/* Content */}
       <div className="p-6">
         <h3 className="font-bold text-lg text-text-primary mb-3 line-clamp-2 group-hover:text-accent-primary smooth-transition">
-          <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-            {article.title}
-          </a>
+          {onClick ? (
+            <button 
+              onClick={onClick}
+              className="hover:underline text-left w-full cursor-pointer"
+            >
+              {article.title}
+            </button>
+          ) : (
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              {article.title}
+            </a>
+          )}
         </h3>
         
         <p className="text-text-secondary text-sm mb-4 line-clamp-3">

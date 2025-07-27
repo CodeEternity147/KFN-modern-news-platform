@@ -3,7 +3,7 @@ const cloudinary = require('../config/cloudinary');
 
 exports.createNews = async (req, res) => {
   try {
-    const { title, description, content, url, publishedAt, sourceName, sourceUrl, category } = req.body;
+    const { title, description, content, publishedAt, sourceName, category } = req.body;
     let imageUrl = '';
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, { folder: 'news_images' });
@@ -13,10 +13,9 @@ exports.createNews = async (req, res) => {
       title,
       description,
       content,
-      url,
       image: imageUrl,
       publishedAt: publishedAt || Date.now(),
-      source: { name: sourceName, url: sourceUrl },
+      sourceName,
       category
     });
     await news.save();
@@ -38,14 +37,13 @@ exports.getAllNews = async (req, res) => {
 exports.updateNews = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, content, url, publishedAt, sourceName, sourceUrl, category } = req.body;
+    const { title, description, content, publishedAt, sourceName, category } = req.body;
     let updateData = {
       title,
       description,
       content,
-      url,
       publishedAt,
-      source: { name: sourceName, url: sourceUrl },
+      sourceName,
       category
     };
     if (req.file) {

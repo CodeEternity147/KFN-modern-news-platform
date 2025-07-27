@@ -5,10 +5,8 @@ const initialState = {
   title: '',
   description: '',
   content: '',
-  url: '',
   publishedAt: '',
   sourceName: '',
-  sourceUrl: '',
   category: '',
   image: null
 };
@@ -44,11 +42,9 @@ const CreateNews = () => {
       case 2:
         return form.description.trim() !== '' && 
                form.content.trim() !== '' && 
-               form.sourceName.trim() !== '' && 
-               form.sourceUrl.trim() !== '';
+               form.sourceName.trim() !== '';
       case 3:
-        return form.url.trim() !== '' && 
-               form.publishedAt !== '' && 
+        return form.publishedAt !== '' && 
                form.image !== null;
       default:
         return false;
@@ -201,30 +197,16 @@ const CreateNews = () => {
           />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-[#ccd6f6] font-medium mb-2">Source Name</label>
-            <input
-              name="sourceName"
-              placeholder="e.g., BBC News, CNN, etc."
-              value={form.sourceName}
-              onChange={handleChange}
-              required
-              className="w-full p-4 bg-[#1a1f2e] border border-[#2a2f3e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none focus:ring-2 focus:ring-[#ff0000]/20 transition-all duration-300"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-[#ccd6f6] font-medium mb-2">Source URL</label>
-            <input
-              name="sourceUrl"
-              placeholder="https://source-website.com"
-              value={form.sourceUrl}
-              onChange={handleChange}
-              required
-              className="w-full p-4 bg-[#1a1f2e] border border-[#2a2f3e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none focus:ring-2 focus:ring-[#ff0000]/20 transition-all duration-300"
-            />
-          </div>
+        <div>
+          <label className="block text-[#ccd6f6] font-medium mb-2">Source Name</label>
+          <input
+            name="sourceName"
+            placeholder="e.g., BBC News, CNN, etc."
+            value={form.sourceName}
+            onChange={handleChange}
+            required
+            className="w-full p-4 bg-[#1a1f2e] border border-[#2a2f3e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none focus:ring-2 focus:ring-[#ff0000]/20 transition-all duration-300"
+          />
         </div>
       </div>
     </div>
@@ -238,18 +220,6 @@ const CreateNews = () => {
       </div>
       
       <div className="space-y-4">
-        <div>
-          <label className="block text-[#ccd6f6] font-medium mb-2">Original Article URL</label>
-          <input
-            name="url"
-            placeholder="https://original-article-url.com"
-            value={form.url}
-            onChange={handleChange}
-            required
-            className="w-full p-4 bg-[#1a1f2e] border border-[#2a2f3e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none focus:ring-2 focus:ring-[#ff0000]/20 transition-all duration-300"
-          />
-        </div>
-        
         <div>
           <label className="block text-[#ccd6f6] font-medium mb-2">Publication Date & Time</label>
           <input
@@ -300,7 +270,7 @@ const CreateNews = () => {
         </div>
       </div>
     </div>
-  ), [form.url, form.publishedAt, form.image, form.title, form.category, form.sourceName, handleChange]);
+  ), [form.publishedAt, form.image, form.title, form.category, form.sourceName, handleChange]);
 
   const currentStepContent = useMemo(() => {
     switch (currentStep) {

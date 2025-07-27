@@ -12,6 +12,9 @@ import ContactUs from './components/Pages/ContactUs';
 import Support from './components/Pages/Support';
 import PrivacyPolicy from './components/Pages/PrivacyPolicy';
 import TermsOfService from './components/Pages/TermsOfService';
+import LocationPermission from './components/LocationPermission';
+import CityNews from './components/CityNews';
+import NewsDetailModal from './components/NewsDetailModal';
 import './App.css';
 
 function NewsApp(props) {
@@ -23,6 +26,8 @@ function NewsApp(props) {
   const [activeCategory, setActiveCategory] = useState('home');
   const [videos, setVideos] = useState([]);
   const [ourNews, setOurNews] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchNews = async (query = '') => {
     setLoading(true);
@@ -54,6 +59,22 @@ function NewsApp(props) {
       fetchNews();
     }
   }, [currentPage]);
+
+  // Handle navigation state from city page
+  useEffect(() => {
+    const location = window.location;
+    const urlParams = new URLSearchParams(location.search);
+    const categoryParam = urlParams.get('category');
+    const searchParam = urlParams.get('search');
+    
+    if (categoryParam && categoryParam !== activeCategory) {
+      handleCategorySelect(categoryParam);
+    }
+    
+    if (searchParam && searchParam !== searchQuery) {
+      handleSearch(searchParam);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -116,6 +137,17 @@ function NewsApp(props) {
     setActiveCategory('home');
   };
 
+  const handleArticleClick = (article) => {
+    console.log('Opening modal with article:', article);
+    setSelectedArticle(article);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedArticle(null);
+  };
+
   const getFeaturedArticle = () => {
     if (!articles.length) return null;
     return articles.find(article => {
@@ -129,6 +161,8 @@ function NewsApp(props) {
     if (!featured) return articles;
     return articles.filter(article => article !== featured);
   };
+
+
 
   if (currentPage === 'category') {
     return (
@@ -176,7 +210,7 @@ function NewsApp(props) {
             <div className="news-grid">
               {ourNews.map((article, idx) => (
                 <div key={article._id || idx} className="animate-fadeInUp" style={{ animationDelay: `${idx * 100}ms` }}>
-                  <NewsCard article={article} />
+                  <NewsCard article={article} onClick={() => handleArticleClick(article)} />
                 </div>
               ))}
             </div>
@@ -226,6 +260,14 @@ function NewsApp(props) {
           )}
         </main>
       </div>
+      
+      {/* News Detail Modal */}
+      <NewsDetailModal
+        article={selectedArticle}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+      
       <Footer />
     </div>
   );
@@ -236,6 +278,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<NewsApp />} />
+        <Route path="/location" element={<LocationPermission />} />
+        <Route path="/city/:cityName" element={<CityNews />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/support" element={<Support />} />

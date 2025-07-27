@@ -43,6 +43,7 @@ const CategoryPage = ({ category, onBack }) => {
       const apiKey = import.meta.env.VITE_NEWS_API_KEY;
       const url = `https://gnews.io/api/v4/top-headlines?lang=hi&category=${category}&token=${apiKey}`;
       
+      
       const response = await fetch(url);
       const data = await response.json();
       

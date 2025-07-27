@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, setLoginState } from '../store';
 import logo from "../assets/logo.jpg"
+import codeeternity from "../assets/LogoFinal.png"
 
 const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQuery: propSearchQuery = '' }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,12 +11,19 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState(propSearchQuery);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [currentUserCity, setCurrentUserCity] = useState(localStorage.getItem('userCity'));
+  const [currentLocationChoice, setCurrentLocationChoice] = useState(localStorage.getItem('locationChoice'));
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const categories = [
     { id: 'home', name: 'Home', icon: '🏠' },
+    { 
+      id: 'local', 
+      name: currentLocationChoice === 'allowed' && currentUserCity ? `${currentUserCity}` : 'Local News', 
+      icon: '🏙️' 
+    },
     { id: 'general', name: 'General', icon: '📰' },
     { id: 'technology', name: 'Technology', icon: '💻' },
     { id: 'business', name: 'Business', icon: '💼' },
@@ -63,13 +71,36 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
   useEffect(() => {
     const handleStorage = () => {
       dispatch(setLoginState(!!localStorage.getItem('token')));
+      // Update location data when localStorage changes
+      setCurrentUserCity(localStorage.getItem('userCity'));
+      setCurrentLocationChoice(localStorage.getItem('locationChoice'));
     };
+    
+    const handleLocationUpdate = (event) => {
+      setCurrentUserCity(event.detail.city);
+      setCurrentLocationChoice(event.detail.choice);
+    };
+    
     window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
+    window.addEventListener('locationUpdated', handleLocationUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('locationUpdated', handleLocationUpdate);
+    };
   }, [dispatch]);
 
   const handleCategoryClick = (categoryId) => {
-    if (onCategorySelect) {
+    if (categoryId === 'local') {
+      // Check if user has already allowed location access
+      if (currentLocationChoice === 'allowed' && currentUserCity) {
+        // User has already allowed location, navigate to their city page
+        window.location.href = `/city/${encodeURIComponent(currentUserCity)}`;
+      } else {
+        // User hasn't allowed location or hasn't made a choice, navigate to location permission page
+        window.location.href = '/location';
+      }
+    } else if (onCategorySelect) {
       onCategorySelect(categoryId);
     }
     setIsMobileMenuOpen(false);
@@ -91,7 +122,11 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
             <div className="flex-shrink-0 group">
               <h1 className="text-2xl flex gap-4 justify-center items-center font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
               <img src={logo} alt="Pulse News Logo" className="w-10 h-10 object-contain" />
-              <span className='text-[32px]' >K.LIVE</span>
+              <div className='flex flex-col' >
+              <span className='text-[24px]'>K.LIVE</span>
+              {/* <div className='text-[10px] flex items-center gap-1'>Powered by <img className='h-2' src={codeeternity} alt="" /></div> */}
+              <div className='text-[8px]' >Powered by CodeEternity</div>
+              </div>
               </h1>
             </div>
 
@@ -121,6 +156,24 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-4">
+              {/* Location Settings */}
+              <button
+                onClick={() => {
+                  localStorage.removeItem('locationPrompted');
+                  localStorage.removeItem('locationChoice');
+                  localStorage.removeItem('userCity');
+                  // Navigate to location permission page
+                  window.location.href = '/location';
+                }}
+                className="p-2.5 rounded-xl bg-bg-tertiary/80 backdrop-blur-sm text-text-secondary hover:text-accent-primary hover:bg-bg-secondary/80 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                title="Location Settings"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+              
               {/* Search */}
               <div className="relative group">
                 <div className="flex items-center">
@@ -228,6 +281,28 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
                     )}
                   </button>
                 ))}
+              </div>
+
+              {/* Mobile Location Settings */}
+              <div className="flex justify-center px-4">
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('locationPrompted');
+                    localStorage.removeItem('locationChoice');
+                    localStorage.removeItem('userCity');
+                    // Navigate to location permission page
+                    window.location.href = '/location';
+                  }}
+                  className="p-3 rounded-xl bg-bg-secondary/80 backdrop-blur-sm text-text-secondary hover:text-accent-primary hover:bg-bg-tertiary/80 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                >
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="text-sm">Location Settings</span>
+                  </div>
+                </button>
               </div>
 
               {/* Mobile Dark Mode Toggle */}
