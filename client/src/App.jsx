@@ -285,6 +285,8 @@ function App() {
         <Route path="/support" element={<Support />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        {/* Catch-all route for any unmatched paths */}
+        <Route path="*" element={<NewsApp />} />
       </Routes>
     </Router>
   );
