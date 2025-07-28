@@ -55,7 +55,7 @@ function NewsApp(props) {
         setError('No articles found');
       }
     } catch (err) {
-      setError('Failed to fetch news. Please try again.');
+      setError('Failed to fetch news. Please try again later');
     } finally {
       setLoading(false);
       setNewsLoaded(true);
