@@ -56,7 +56,7 @@ const TermsOfService = () => {
             Terms of <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Service</span>
           </h1>
           <p className="max-w-3xl mx-auto text-xl animate-fade-in-up-delay" style={{color: 'var(--text-secondary)'}}>
-            Please read these terms of service carefully before using K.LIVE. By accessing our platform, you agree to these terms.
+            Please read these terms of service carefully before using KFN. By accessing our platform, you agree to these terms.
           </p>
           <div className="mt-8 animate-fade-in-up-delay-2">
             <p className="text-sm" style={{color: 'var(--text-muted)'}}>
@@ -116,8 +116,8 @@ const TermsOfService = () => {
                   Introduction
                 </h2>
                 <p className="text-lg leading-relaxed mb-4" style={{color: 'var(--text-secondary)'}}>
-                  Welcome to K.LIVE. These Terms of Service ("Terms") govern your use of our website, mobile application, 
-                  and any related services (collectively, the "Service") operated by K.LIVE ("us", "we", or "our").
+                  Welcome to KFN. These Terms of Service ("Terms") govern your use of our website, mobile application, 
+                  and any related services (collectively, the "Service") operated by KFN ("us", "we", or "our").
                 </p>
                 <p className="leading-relaxed" style={{color: 'var(--text-secondary)'}}>
                   By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any 
@@ -136,7 +136,7 @@ const TermsOfService = () => {
                   1. Acceptance of Terms
                 </h2>
                 <p className="leading-relaxed mb-4" style={{color: 'var(--text-secondary)'}}>
-                  By accessing and using K.LIVE, you accept and agree to be bound by the terms and provision of this agreement.
+                  By accessing and using KFN, you accept and agree to be bound by the terms and provision of this agreement.
                 </p>
                 <div className="p-4 rounded-lg" style={{backgroundColor: 'var(--bg-tertiary)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
                   <p className="text-sm" style={{color: 'var(--text-muted)'}}>
@@ -233,7 +233,7 @@ const TermsOfService = () => {
                     </h3>
                     <p className="leading-relaxed" style={{color: 'var(--text-secondary)'}}>
                       The Service and its original content, features, and functionality are and will remain the exclusive 
-                      property of K.LIVE and its licensors. The service is protected by copyright, trademark, and other laws.
+                      property of KFN and its licensors. The service is protected by copyright, trademark, and other laws.
                     </p>
                   </div>
                   
@@ -338,7 +338,7 @@ const TermsOfService = () => {
                   8. Limitation of Liability
                 </h2>
                 <p className="leading-relaxed mb-6" style={{color: 'var(--text-secondary)'}}>
-                  In no event shall K.LIVE, nor its directors, employees, partners, agents, suppliers, or affiliates, 
+                  In no event shall KFN, nor its directors, employees, partners, agents, suppliers, or affiliates, 
                   be liable for any indirect, incidental, special, consequential, or punitive damages.
                 </p>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -460,7 +460,7 @@ const TermsOfService = () => {
         Legal Department
       </h4>
       <div className="space-y-2 text-sm" style={{color: 'var(--text-secondary)'}}>
-        <p>📧 legal@klive.news</p>
+        <p>📧 legal@kfn.com</p>
         <p>📞 +1 (555) 123-4567</p>
         <p>📍 123 News Street, Media City, MC 12345</p>
         <p>🌐 United States</p>
@@ -528,7 +528,7 @@ const TermsOfService = () => {
     
     <div className="mt-8 pt-6 border-t border-gray-600">
       <p className="text-sm" style={{color: 'var(--text-muted)'}}>
-        By continuing to use K.LIVE, you acknowledge that you have read, understood, 
+        By continuing to use KFN, you acknowledge that you have read, understood, 
         and agree to be bound by these Terms of Service.
       </p>
     </div>

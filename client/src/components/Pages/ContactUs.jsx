@@ -28,7 +28,7 @@ const ContactUs = () => {
         <div className="absolute inset-0" style={{background: 'var(--gradient-hero)'}}></div>
         <div className="relative z-10 text-center py-20 px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up" style={{color: 'var(--text-primary)'}}>
-            Contact <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>K.LIVE</span>
+            Contact <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>KFN</span>
           </h1>
           <p className="max-w-2xl mx-auto text-xl animate-fade-in-up-delay" style={{color: 'var(--text-secondary)'}}>
             Get in touch with our team. We'd love to hear from you and answer any questions you may have.
@@ -184,8 +184,8 @@ const ContactUs = () => {
                   </div>
                 </div>
                 <div className="ml-16">
-                  <p style={{color: 'var(--accent-primary)'}} className="font-medium">contact@klive.news</p>
-                  <p style={{color: 'var(--text-secondary)'}} className="text-sm">newsroom@klive.news</p>
+                  <p style={{color: 'var(--accent-primary)'}} className="font-medium">contact@kfn.com</p>
+                  <p style={{color: 'var(--text-secondary)'}} className="text-sm">newsroom@kfn.com</p>
                 </div>
               </div>
 

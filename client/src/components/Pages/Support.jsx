@@ -15,8 +15,8 @@ const Support = () => {
   const faqData = {
     general: [
       {
-        question: "What is K.LIVE?",
-        answer: "K.LIVE is a comprehensive news platform that provides breaking news, in-depth analysis, and stories from around the world. We're committed to delivering accurate, unbiased journalism to keep you informed."
+        question: "What is KFN?",
+        answer: "KFN is a comprehensive news platform that provides breaking news, in-depth analysis, and stories from around the world. We're committed to delivering accurate, unbiased journalism to keep you informed."
       },
       {
         question: "How often is content updated?",
@@ -49,7 +49,7 @@ const Support = () => {
         answer: "Use our contact form and select 'News Tip' as the subject. Provide as much detail as possible, and our editorial team will review your submission."
       },
       {
-        question: "Can I republish K.LIVE articles?",
+        question: "Can I republish KFN articles?",
         answer: "Please review our content licensing terms or contact our editorial team for permission to republish our content."
       },
       {
@@ -76,7 +76,7 @@ const Support = () => {
   const supportInfo = [
     {
       title: "Help Documentation",
-      description: "Comprehensive guides and tutorials to help you navigate K.LIVE",
+      description: "Comprehensive guides and tutorials to help you navigate KFN",
       availability: "Available 24/7",
       icon: "📚",
       color: "var(--gradient-primary)"
@@ -112,7 +112,7 @@ const Support = () => {
             Support <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Center</span>
           </h1>
           <p className="max-w-3xl mx-auto text-xl animate-fade-in-up-delay" style={{color: 'var(--text-secondary)'}}>
-            Find answers to common questions, learn about our features, and discover helpful resources to enhance your K.LIVE experience.
+            Find answers to common questions, learn about our features, and discover helpful resources to enhance your KFN experience.
           </p>
           
           {/* Search Bar */}
@@ -254,12 +254,12 @@ const Support = () => {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { title: "Getting Started Guide", description: "Learn the basics of using K.LIVE and navigating our platform", icon: "🚀" },
+              { title: "Getting Started Guide", description: "Learn the basics of using KFN and navigating our platform", icon: "🚀" },
               { title: "Reading Experience", description: "Discover features to enhance your news reading experience", icon: "📖" },
               { title: "News Categories", description: "Understand our content organization and topic coverage", icon: "📂" },
               { title: "Content Guidelines", description: "Our editorial standards and content quality policies", icon: "📋" },
               { title: "Privacy & Security", description: "Learn how we protect your information and maintain privacy", icon: "🛡️" },
-              { title: "Accessibility Features", description: "Tools and options to make K.LIVE accessible for everyone", icon: "♿" }
+              { title: "Accessibility Features", description: "Tools and options to make KFN accessible for everyone", icon: "♿" }
             ].map((topic, index) => (
               <div
                 key={index}
@@ -298,7 +298,7 @@ const Support = () => {
                 📚 User Guide
               </h3>
               <p className="leading-relaxed mb-4" style={{color: 'var(--text-secondary)'}}>
-                Comprehensive documentation covering all features and functionalities of K.LIVE. 
+                Comprehensive documentation covering all features and functionalities of KFN. 
                 From basic navigation to advanced customization options.
               </p>
               <ul className="space-y-2 text-sm" style={{color: 'var(--text-muted)'}}>
@@ -320,7 +320,7 @@ const Support = () => {
               </h3>
               <p className="leading-relaxed mb-4" style={{color: 'var(--text-secondary)'}}>
                 Quick solutions to common issues and technical problems you might encounter 
-                while using K.LIVE across different devices and browsers.
+                while using KFN across different devices and browsers.
               </p>
               <ul className="space-y-2 text-sm" style={{color: 'var(--text-muted)'}}>
                 <li>• Browser compatibility issues</li>

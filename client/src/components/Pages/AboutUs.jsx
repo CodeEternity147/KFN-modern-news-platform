@@ -8,7 +8,7 @@ const AboutUs = () => {
         <div className="absolute inset-0" style={{background: 'var(--gradient-hero)'}}></div>
         <div className="relative z-10 flex flex-col items-center justify-center py-20 px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up" style={{color: 'var(--text-primary)'}}>
-            About <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>K.LIVE</span>
+            About <span style={{background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>KFN</span>
           </h1>
           <p className="max-w-3xl text-xl text-center leading-relaxed animate-fade-in-up-delay" style={{color: 'var(--text-secondary)'}}>
             Your trusted source for breaking news, in-depth analysis, and stories that shape our world.
@@ -28,7 +28,7 @@ const AboutUs = () => {
                }}>
             <h2 className="text-3xl font-bold mb-6" style={{color: 'var(--accent-primary)'}}>Our Mission</h2>
             <p className="text-lg leading-relaxed mb-6" style={{color: 'var(--text-secondary)'}}>
-              At K.LIVE, we believe in the power of information to transform communities and empower individuals. 
+              At KFN, we believe in the power of information to transform communities and empower individuals. 
               Our mission is to deliver accurate, unbiased, and timely news coverage that keeps you informed 
               about the events that matter most.
             </p>
@@ -118,7 +118,7 @@ const AboutUs = () => {
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-6" style={{color: 'var(--text-primary)'}}>Our Team</h2>
           <p className="max-w-3xl mx-auto text-lg mb-8" style={{color: 'var(--text-secondary)'}}>
-            K.LIVE is powered by a dedicated team of experienced journalists, editors, and technology 
+            KFN is powered by a dedicated team of experienced journalists, editors, and technology 
             professionals who work around the clock to bring you the stories that matter.
           </p>
           <div className="inline-block rounded-xl p-6" style={{background: 'var(--gradient-primary)', color: 'var(--text-primary)'}}>

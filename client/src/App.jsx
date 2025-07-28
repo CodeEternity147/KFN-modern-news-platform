@@ -15,7 +15,10 @@ import TermsOfService from './components/Pages/TermsOfService';
 import LocationPermission from './components/LocationPermission';
 import CityNews from './components/CityNews';
 import NewsDetailModal from './components/NewsDetailModal';
+import LoadingPage from './components/LoadingPage';
 import './App.css';
+
+
 
 function NewsApp(props) {
   const [articles, setArticles] = useState([]);
@@ -28,6 +31,10 @@ function NewsApp(props) {
   const [ourNews, setOurNews] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [newsLoaded, setNewsLoaded] = useState(false);
+  const [videosLoaded, setVideosLoaded] = useState(false);
+  const [ourNewsLoaded, setOurNewsLoaded] = useState(false);
 
   const fetchNews = async (query = '') => {
     setLoading(true);
@@ -51,6 +58,7 @@ function NewsApp(props) {
       setError('Failed to fetch news. Please try again.');
     } finally {
       setLoading(false);
+      setNewsLoaded(true);
     }
   };
 
@@ -95,6 +103,8 @@ function NewsApp(props) {
         }
       } catch (err) {
         setVideos([]);
+      } finally {
+        setVideosLoaded(true);
       }
     };
     fetchVideos();
@@ -110,9 +120,27 @@ function NewsApp(props) {
           setOurNews(data);
         }
       } catch (err) {}
+      finally {
+        setOurNewsLoaded(true);
+      }
     };
     fetchOurNews();
   }, []);
+
+  // Hide initial loading when all data is loaded
+  useEffect(() => {
+    // Check if all data sources have been loaded
+    const allDataLoaded = newsLoaded && videosLoaded && ourNewsLoaded && !loading;
+    
+    if (allDataLoaded) {
+      // Add a small delay for smooth transition
+      const timer = setTimeout(() => {
+        setIsInitialLoading(false);
+      }, 1500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [newsLoaded, videosLoaded, ourNewsLoaded, loading]);
 
   const handleSearch = (query) => {
     if (query && query.trim()) {
@@ -163,6 +191,17 @@ function NewsApp(props) {
   };
 
 
+
+  // Show loading screen during initial load
+  if (isInitialLoading) {
+    return (
+      <LoadingPage 
+        newsLoaded={newsLoaded}
+        videosLoaded={videosLoaded}
+        ourNewsLoaded={ourNewsLoaded}
+      />
+    );
+  }
 
   if (currentPage === 'category') {
     return (
@@ -278,6 +317,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<NewsApp />} />
+        <Route path="/loading" element={<LoadingPage />} />
         <Route path="/location" element={<LocationPermission />} />
         <Route path="/city/:cityName" element={<CityNews />} />
         <Route path="/about" element={<AboutUs />} />

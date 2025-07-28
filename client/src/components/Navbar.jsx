@@ -121,9 +121,9 @@ const Navbar = ({ onCategorySelect, activeCategory = 'home', onSearch, searchQue
             {/* Logo */}
             <div className="flex-shrink-0 group">
               <h1 className="text-2xl flex gap-4 justify-center items-center font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
-              <img src={logo} alt="Pulse News Logo" className="w-10 h-10 object-contain" />
+              <img src={logo} alt="KFN Logo" className="w-10 h-10 object-contain" />
               <div className='flex flex-col' >
-              <span className='text-[24px]'>K.LIVE</span>
+              <span className='text-[24px]'>KFN</span>
               {/* <div className='text-[10px] flex items-center gap-1'>Powered by <img className='h-2' src={codeeternity} alt="" /></div> */}
               <div className='text-[8px]' >Powered by CodeEternity</div>
               </div>

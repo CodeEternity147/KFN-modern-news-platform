@@ -31,7 +31,7 @@ const Footer = () => {
 
   // Typewriter effect for copyright
   useEffect(() => {
-    const text = `© ${new Date().getFullYear()} K.News -  All rights reserved.`;
+    const text = `© ${new Date().getFullYear()} KFN -  All rights reserved.`;
     let index = 0;
     const timer = setInterval(() => {
       if (index < text.length) {
@@ -106,8 +106,8 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0 group">
                   <span className="text-2xl flex gap-4 justify-center items-center font-bold text-accent-primary cursor-pointer hover:text-accent-secondary hover:scale-105 transition-all duration-300 hover:drop-shadow-lg">
-                    <img src={logo} alt="Pulse News Logo" className="w-10 h-10 object-contain" />
-                    <span className='text-[32px] '>K.LIVE</span>
+                    <img src={logo} alt="KFN Logo" className="w-10 h-10 object-contain" />
+                    <span className='text-[32px] '>KFN</span>
                   </span>
                 </div>
               </div>

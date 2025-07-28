@@ -114,12 +114,12 @@ const PrivacyPolicy = () => {
                   Introduction
                 </h2>
                 <p className="text-lg leading-relaxed mb-4" style={{color: 'var(--text-secondary)'}}>
-                  Welcome to K.LIVE. We respect your privacy and are committed to protecting your personal data. 
+                  Welcome to KFN. We respect your privacy and are committed to protecting your personal data. 
                   This privacy policy explains how we collect, use, and safeguard your information when you visit 
                   our website or use our services.
                 </p>
                 <p className="leading-relaxed" style={{color: 'var(--text-secondary)'}}>
-                  By using K.LIVE, you agree to the collection and use of information in accordance with this policy.
+                  By using KFN, you agree to the collection and use of information in accordance with this policy.
                 </p>
               </section>
 
@@ -403,7 +403,7 @@ const PrivacyPolicy = () => {
                       Privacy Officer
                     </h4>
                     <div className="space-y-2 text-sm" style={{color: 'var(--text-secondary)'}}>
-                      <p>📧 privacy@klive.news</p>
+                      <p>📧 privacy@kfn.com</p>
                       <p>📞 +1 (555) 123-4567</p>
                       <p>📍 123 News Street, Media City, MC 12345</p>
                     </div>
