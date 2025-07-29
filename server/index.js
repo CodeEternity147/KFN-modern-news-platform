@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5000;
 
 // Allow CORS for production and local dev
 const allowedOrigins = [
+  'https://www.khetasaraifastnews.in/',
   'https://kfn-modern-news-platform.vercel.app',
   'https://kfn-modern-news-platform-cuyf.vercel.app',
   'http://localhost:5173',
