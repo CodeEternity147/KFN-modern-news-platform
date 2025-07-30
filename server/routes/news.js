@@ -10,6 +10,9 @@ router.post('/', upload.single('image'), newsController.createNews);
 // GET /api/news - get all news
 router.get('/', newsController.getAllNews);
 
+// GET /api/news/:id - get news by ID
+router.get('/:id', newsController.getNewsById);
+
 // PUT /api/news/:id - update news by ID (with optional image upload)
 router.put('/:id', upload.single('image'), newsController.updateNews);
 

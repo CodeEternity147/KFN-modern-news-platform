@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Dashboard = () => {
   const [news, setNews] = useState([]);
@@ -13,17 +15,50 @@ const Dashboard = () => {
   const [deleteId, setDeleteId] = useState(null); // Add state for delete confirmation
   const navigate = useNavigate();
 
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+  // Try to use relative URL first, then fallback to environment variable
+  const getBaseUrl = () => {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Local development - use localhost
+      return 'http://localhost:5000';
+    } else {
+      // Production - use environment variable or relative URL
+      return import.meta.env.VITE_API_BASE_URL || window.location.origin;
+    }
+  };
 
   const fetchNews = async () => {
     try {
+      const baseUrl = getBaseUrl();
+      console.log('Fetching news from:', `${baseUrl}/api/news`);
       const res = await fetch(`${baseUrl}/api/news`);
       if (res.ok) {
         const data = await res.json();
         setNews(data);
+        if (data.length > 0) {
+          toast.info(`Loaded ${data.length} news articles`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
       }
     } catch (err) {
       console.error('Error fetching news:', err);
+      toast.error('Failed to load news articles', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
     }
@@ -34,12 +69,25 @@ const Dashboard = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    const article = news.find(n => n._id === id);
     setDeleteId(id); // Show confirmation modal
+    
+    toast.warning(`Confirm deletion of: ${article?.title}`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
+      const baseUrl = getBaseUrl();
       const res = await fetch(`${baseUrl}/api/news/${deleteId}`, { method: 'DELETE' });
       if (res.ok) {
         setNews(news.filter(n => n._id !== deleteId));
@@ -60,14 +108,23 @@ const Dashboard = () => {
       title: item.title,
       description: item.description,
       content: item.content,
-      url: item.url,
       publishedAt: item.publishedAt ? item.publishedAt.slice(0, 16) : '',
-      sourceName: item.source?.name || '',
-      sourceUrl: item.source?.url || '',
+      sourceName: item.sourceName || item.source?.name || '',
       category: item.category,
       image: null
     });
     setEditError('');
+    
+    toast.info(`Editing: ${item.title}`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   const handleEditChange = (e) => {
@@ -89,6 +146,7 @@ const Dashboard = () => {
         if (value) formData.append(key, value);
       });
       
+      const baseUrl = getBaseUrl();
       const res = await fetch(`${baseUrl}/api/news/${editing}`, {
         method: 'PUT',
         body: formData
@@ -111,19 +169,29 @@ const Dashboard = () => {
   };
 
   const showNotification = (message, type) => {
-    const notificationDiv = document.createElement('div');
-    notificationDiv.className = `fixed top-4 right-4 px-6 py-3 rounded-lg z-50 transform transition-all duration-300 ${
-      type === 'success' 
-        ? 'bg-green-500/20 border border-green-500/40 text-green-400' 
-        : 'bg-red-500/20 border border-red-500/40 text-red-400'
-    }`;
-    notificationDiv.textContent = message;
-    document.body.appendChild(notificationDiv);
-    
-    setTimeout(() => {
-      notificationDiv.style.transform = 'translateX(100%)';
-      setTimeout(() => notificationDiv.remove(), 300);
-    }, 3000);
+    if (type === 'success') {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   const filteredNews = selectedCategory === 'all' 
@@ -158,6 +226,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0e1a] text-white flex flex-col md:flex-row">
+      <ToastContainer />
       {/* Sidebar */}
       <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-[#1a1f2e] border-r border-[#2a2f3e] p-6 z-10">
         <div className="flex items-center space-x-3 mb-8">
@@ -407,6 +476,7 @@ const Dashboard = () => {
                   value={editForm.title} 
                   onChange={handleEditChange} 
                   required 
+                  placeholder="Enter a compelling title for your news article..."
                   className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300"
                 />
               </div>
@@ -419,6 +489,7 @@ const Dashboard = () => {
                   onChange={handleEditChange} 
                   required 
                   rows={3}
+                  placeholder="Brief description of the article..."
                   className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300 resize-none"
                 />
               </div>
@@ -431,31 +502,9 @@ const Dashboard = () => {
                   onChange={handleEditChange} 
                   required 
                   rows={6}
+                  placeholder="Write the full article content here..."
                   className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300 resize-none"
                 />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[#ccd6f6] font-medium mb-2">Original URL</label>
-                  <input 
-                    name="url" 
-                    value={editForm.url} 
-                    onChange={handleEditChange} 
-                    className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[#ccd6f6] font-medium mb-2">Publication Date</label>
-                  <input 
-                    name="publishedAt" 
-                    type="datetime-local" 
-                    value={editForm.publishedAt} 
-                    onChange={handleEditChange} 
-                    className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white focus:border-[#ff0000] focus:outline-none transition-all duration-300"
-                  />
-                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -466,23 +515,11 @@ const Dashboard = () => {
                     value={editForm.sourceName} 
                     onChange={handleEditChange} 
                     required 
+                    placeholder="e.g., BBC News, CNN, etc."
                     className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[#ccd6f6] font-medium mb-2">Source URL</label>
-                  <input 
-                    name="sourceUrl" 
-                    value={editForm.sourceUrl} 
-                    onChange={handleEditChange} 
-                    required 
-                    className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white placeholder-[#8892b0] focus:border-[#ff0000] focus:outline-none transition-all duration-300"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[#ccd6f6] font-medium mb-2">Category</label>
                   <select 
@@ -493,15 +530,29 @@ const Dashboard = () => {
                     className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white focus:border-[#ff0000] focus:outline-none transition-all duration-300"
                   >
                     <option value="">Select Category</option>
-                    <option value="General">General</option>
-                    <option value="Technology">Technology</option>
-                    <option value="Business">Business</option>
-                    <option value="Sports">Sports</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Health">Health</option>
-                    <option value="Science">Science</option>
-                    <option value="Politics">Politics</option>
+                    <option value="General">📰 General</option>
+                    <option value="Technology">💻 Technology</option>
+                    <option value="Business">💼 Business</option>
+                    <option value="Sports">⚽ Sports</option>
+                    <option value="Entertainment">🎬 Entertainment</option>
+                    <option value="Health">🏥 Health</option>
+                    <option value="Science">🔬 Science</option>
+                    <option value="Politics">🏛️ Politics</option>
                   </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[#ccd6f6] font-medium mb-2">Publication Date & Time</label>
+                  <input 
+                    name="publishedAt" 
+                    type="datetime-local" 
+                    value={editForm.publishedAt} 
+                    onChange={handleEditChange} 
+                    required
+                    className="w-full p-4 bg-[#2a2f3e] border border-[#3a3f4e] rounded-xl text-white focus:border-[#ff0000] focus:outline-none transition-all duration-300"
+                  />
                 </div>
 
                 <div>

@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialState = {
   title: '',
@@ -13,8 +15,6 @@ const initialState = {
 
 const CreateNews = () => {
   const [form, setForm] = useState(initialState);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
@@ -54,8 +54,6 @@ const CreateNews = () => {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
-    setError('');
     
     try {
       const formData = new FormData();
@@ -63,7 +61,17 @@ const CreateNews = () => {
         if (value) formData.append(key, value);
       });
       
-      const baseUrl = import.meta.env.VITE_API_BASE_URL;
+      // Try to use relative URL first, then fallback to environment variable
+      let baseUrl;
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        // Local development - use localhost
+        baseUrl = 'http://localhost:5000';
+      } else {
+        // Production - use environment variable or relative URL
+        baseUrl = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+      }
+      
+      console.log('Creating news with API URL:', `${baseUrl}/api/news`);
       const res = await fetch(`${baseUrl}/api/news`, {
         method: 'POST',
         body: formData
@@ -72,13 +80,40 @@ const CreateNews = () => {
       const data = await res.json();
       
       if (res.ok) {
-        setMessage('News created successfully!');
+        toast.success('News created successfully!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTimeout(() => navigate('/dashboard'), 1200);
       } else {
-        setError(data.message || 'Failed to create news');
+        toast.error(data.message || 'Failed to create news', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } catch (err) {
-      setError('Server error');
+      toast.error('Server error', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
     }
@@ -287,6 +322,7 @@ const CreateNews = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0e1a] py-4 px-2 sm:py-8 sm:px-4">
+      <ToastContainer />
       <div className="max-w-full sm:max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-4 sm:mb-8">
@@ -369,17 +405,7 @@ const CreateNews = () => {
           </form>
         </div>
 
-        {/* Messages */}
-        {message && (
-          <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center animate-pulse text-xs sm:text-base">
-            {message}
-          </div>
-        )}
-        {error && (
-          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center text-xs sm:text-base">
-            {error}
-          </div>
-        )}
+
       </div>
     </div>
   );

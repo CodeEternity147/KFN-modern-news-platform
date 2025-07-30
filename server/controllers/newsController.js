@@ -34,6 +34,19 @@ exports.getAllNews = async (req, res) => {
   }
 };
 
+exports.getNewsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const news = await News.findById(id);
+    if (!news) {
+      return res.status(404).json({ message: 'News not found' });
+    }
+    res.json(news);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
 exports.updateNews = async (req, res) => {
   try {
     const { id } = req.params;

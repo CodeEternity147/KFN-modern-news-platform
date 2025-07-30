@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import NewsCard from './components/NewsCard';
@@ -14,7 +16,7 @@ import PrivacyPolicy from './components/Pages/PrivacyPolicy';
 import TermsOfService from './components/Pages/TermsOfService';
 import LocationPermission from './components/LocationPermission';
 import CityNews from './components/CityNews';
-import NewsDetailModal from './components/NewsDetailModal';
+import NewsDetailPage from './components/NewsDetailPage';
 import LoadingPage from './components/LoadingPage';
 import './App.css';
 
@@ -29,8 +31,6 @@ function NewsApp(props) {
   const [activeCategory, setActiveCategory] = useState('home');
   const [videos, setVideos] = useState([]);
   const [ourNews, setOurNews] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [newsLoaded, setNewsLoaded] = useState(false);
   const [videosLoaded, setVideosLoaded] = useState(false);
@@ -113,13 +113,24 @@ function NewsApp(props) {
   useEffect(() => {
     const fetchOurNews = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_BASE_URL;
-        const res = await fetch(`${baseUrl}/api/news`);
+        // Try to use relative URL first, then fallback to environment variable
+        let apiUrl;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          // Local development - use localhost
+          apiUrl = 'http://localhost:5000';
+        } else {
+          // Production - use environment variable or relative URL
+          apiUrl = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+        }
+        
+        const res = await fetch(`${apiUrl}/api/news`);
         if (res.ok) {
           const data = await res.json();
           setOurNews(data);
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error('Error fetching our news:', err);
+      }
       finally {
         setOurNewsLoaded(true);
       }
@@ -163,17 +174,6 @@ function NewsApp(props) {
   const handleBackToHome = () => {
     setCurrentPage('home');
     setActiveCategory('home');
-  };
-
-  const handleArticleClick = (article) => {
-    console.log('Opening modal with article:', article);
-    setSelectedArticle(article);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedArticle(null);
   };
 
   const getFeaturedArticle = () => {
@@ -245,11 +245,11 @@ function NewsApp(props) {
         )}
         {ourNews.length > 0 && (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h2 className="text-headline font-bold mb-8 text-gradient">Our News</h2>
+            <h2 className="text-headline font-bold mb-8 text-gradient">Kheta Sarai News</h2>
             <div className="news-grid">
               {ourNews.map((article, idx) => (
                 <div key={article._id || idx} className="animate-fadeInUp" style={{ animationDelay: `${idx * 100}ms` }}>
-                  <NewsCard article={article} onClick={() => handleArticleClick(article)} />
+                  <NewsCard article={article} />
                 </div>
               ))}
             </div>
@@ -300,13 +300,6 @@ function NewsApp(props) {
         </main>
       </div>
       
-      {/* News Detail Modal */}
-      <NewsDetailModal
-        article={selectedArticle}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
-      
       <Footer />
     </div>
   );
@@ -320,6 +313,7 @@ function App() {
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/location" element={<LocationPermission />} />
         <Route path="/city/:cityName" element={<CityNews />} />
+        <Route path="/news/:newsId" element={<NewsDetailPage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/support" element={<Support />} />
@@ -328,6 +322,7 @@ function App() {
         {/* Catch-all route for any unmatched paths */}
         <Route path="*" element={<NewsApp />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }

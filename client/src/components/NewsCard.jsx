@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewsCard = ({ article, onClick }) => {
+  const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -60,6 +62,20 @@ const NewsCard = ({ article, onClick }) => {
     };
     
     window.open(shareUrls[platform], '_blank');
+  };
+
+  // Handle navigation to news detail page
+  const handleNewsClick = () => {
+    if (article._id) {
+      // This is our backend news, navigate to detail page
+      navigate(`/news/${article._id}`);
+    } else if (onClick) {
+      // This is external news, use the onClick handler (modal)
+      onClick();
+    } else if (article.url) {
+      // Fallback to external URL
+      window.open(article.url, '_blank');
+    }
   };
 
   return (
@@ -130,18 +146,12 @@ const NewsCard = ({ article, onClick }) => {
       {/* Content */}
       <div className="p-6">
         <h3 className="font-bold text-lg text-text-primary mb-3 line-clamp-2 group-hover:text-accent-primary smooth-transition">
-          {onClick ? (
-            <button 
-              onClick={onClick}
-              className="hover:underline text-left w-full cursor-pointer"
-            >
-              {article.title}
-            </button>
-          ) : (
-            <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {article.title}
-            </a>
-          )}
+          <button 
+            onClick={handleNewsClick}
+            className="hover:underline text-left w-full cursor-pointer"
+          >
+            {article.title}
+          </button>
         </h3>
         
         <p className="text-text-secondary text-sm mb-4 line-clamp-3">
